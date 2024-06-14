@@ -13,7 +13,7 @@
             <repositories>
                 <repository>
                     <id>github</id>
-                    <url>https://maven.pkg.github.com/HARMAN-Automotive/csp-central-repo</url>
+                    <url>https://maven.pkg.github.com/harman-automotive/csp-central-repo</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
