@@ -6,13 +6,7 @@
     <name>ignite-utils</name>
     <description>Consists of Ignite utils</description>
     <url>http://maven.apache.org</url>
-
-    <scm>
-       <connection>scm:git:ssh://git@bitbucket.harman.com:7999/ics/utils.git</connection>
-        <url>https://bitbucket.harman.com/scm/ics/utils.git</url>
-        <tag>HEAD</tag>
-    </scm>
-
+	
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <artifactory.repo>https://artifactory-fr.harman.com/artifactory</artifactory.repo>
@@ -36,51 +30,13 @@
         	src/main/java/com/harman/ignite/utils/logger/IgniteThrowableProxyConverter.java
         </sonar.coverage.exclusions>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>${artifactory.repo}/ignite-dependencies</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>artifactory-libs</id>
-            <name>ignite-libs</name>
-            <url>${artifactory.repo}/ignite-libs</url>
-        </repository>
-    </repositories>
-
-     <pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <url>${artifactory.repo}/ignite-dependencies</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>artifactory-libs</id>
-            <url>${artifactory.repo}/ignite-libs</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
+	
     <distributionManagement>
-        <repository>
-            <id>artifactory-release</id>
-            <name>ignite-libs-release</name>
-            <url>${artifactory.repo}/ignite-libs-release</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>artifactory-snapshot</id>
-            <name>ignite-libs-snapshot</name>
-            <url>${artifactory.repo}/ignite-libs-snapshot</url>
-        </snapshotRepository>
+	<repository>
+		<id>github</id>
+		<name>GitHub OWNER Apache Maven Packages</name>
+		<url>https://maven.pkg.github.com/harman-automotive/csp-central-repo</url>
+	</repository>
     </distributionManagement>
 
     <dependencies>
