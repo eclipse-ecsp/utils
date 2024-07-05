@@ -1,13 +1,42 @@
-/**
- * 
+/*
+ * *******************************************************************************
+ *
+ *  Copyright (c) 2023-24 Harman International
+ *
+ *
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ *  you may not use this file except in compliance with the License.
+ *
+ *  You may obtain a copy of the License at
+ *
+ *
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ *  See the License for the specific language governing permissions and
+ *
+ *  limitations under the License.
+ *
+ *
+ *
+ *  SPDX-License-Identifier: Apache-2.0
+ *
+ *  *******************************************************************************
  */
+
 package com.harman.ignite.utils.logger;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.util.Map;
-
+import com.harman.ignite.entities.IgniteEvent;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,24 +45,33 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
-import com.harman.ignite.entities.IgniteEvent;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
- * @author AKumar
+ * Test class for IgniteLogger.
  *
+ * @author AKumar
  */
 
 public class TestIgniteLogger {
-    private static IgniteLoggerImpl igniteLogger = IgniteLoggerImpl.getIgniteLoggerImplInstance(EventLogger2.class);
-    Logger LOGGER;
+    private static final int TWO = 2;
+    private static IgniteLoggerImpl igniteLogger =
+            IgniteLoggerImpl.getIgniteLoggerImplInstance(EventLogger2.class);
+    Logger logger;
 
+    /**
+     * Setup method.
+     */
     @Before
     public void setup() {
-        LOGGER = Mockito.mock(Logger.class);
-        when(LOGGER.isTraceEnabled()).thenReturn(true);
-        when(LOGGER.isDebugEnabled()).thenReturn(true);
-        when(LOGGER.isInfoEnabled()).thenReturn(true);
-        igniteLogger.setLogger(LOGGER);
+        logger = Mockito.mock(Logger.class);
+        when(logger.isTraceEnabled()).thenReturn(true);
+        when(logger.isDebugEnabled()).thenReturn(true);
+        when(logger.isInfoEnabled()).thenReturn(true);
+        igniteLogger.setLogger(logger);
     }
 
     @Test
@@ -44,7 +82,7 @@ public class TestIgniteLogger {
         igniteEventTh2.start();
 
         Map<String, IgniteLoggerImpl> igniteLoggersMap = igniteLogger.getIgniteLoggersMap();
-        assertEquals(2, igniteLoggersMap.size());
+        assertEquals(TWO, igniteLoggersMap.size());
         Assert.assertTrue(igniteLoggersMap.containsKey(EventLogger1.class.getName()));
         Assert.assertTrue(igniteLoggersMap.containsKey(EventLogger2.class.getName()));
     }
@@ -53,41 +91,47 @@ public class TestIgniteLogger {
     public void testInfo() {
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
         igniteLogger.info("InfoWithMsg");
-        Mockito.verify(LOGGER).info(arg.capture());
+        Mockito.verify(logger).info(arg.capture());
         assertEquals("InfoWithMsg", arg.getValue());
     }
 
     @Test
     public void testInfoWithMsgAndThrowable() {
         igniteLogger.info("InfoWithMsgAndThrowable", new Throwable());
-        Mockito.verify(LOGGER).info(Mockito.eq("InfoWithMsgAndThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger).info(Mockito.eq("InfoWithMsgAndThrowable"), Mockito.<Throwable>any());
     }
 
     @Test
-    public void testInfoWithFormatnArgs() {
-        igniteLogger.info("Display message as: parameter1={}", new String("value1"));
-        Mockito.verify(LOGGER).info(ArgumentMatchers.contains("Display message as: parameter1={}"), ArgumentMatchers.<Object[]> any());
+    public void testInfoWithFormatNArgs() {
+        igniteLogger.info("Display message as: parameter1={}", "value1");
+        Mockito.verify(logger)
+                .info(
+                        ArgumentMatchers.contains("Display message as: parameter1={}"),
+                        ArgumentMatchers.<Object[]>any());
     }
 
     @Test
     public void testInfoWithIgniteEvent() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.info(igniteEvent, "InfoWithMsgAndThrowable");
-        Mockito.verify(LOGGER).info(ArgumentMatchers.endsWith("InfoWithMsgAndThrowable"));
+        Mockito.verify(logger).info(ArgumentMatchers.endsWith("InfoWithMsgAndThrowable"));
     }
 
     @Test
-    public void testInfoWithIgniteEventnMsgnThrowable() {
+    public void testInfoWithIgniteEventNMsgNThrowable() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.info(igniteEvent, "InfoWithIgniteEventnMsgnThrowable", new Throwable());
-        Mockito.verify(LOGGER).info(Mockito.endsWith("InfoWithIgniteEventnMsgnThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger).info(Mockito.endsWith("InfoWithIgniteEventnMsgnThrowable"), Mockito.<Throwable>any());
     }
 
     @Test
-    public void testInfoWithIgniteEventNFormatNArgs() {
+    public void testInfoWithIgniteEventNFormatNargs() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
-        igniteLogger.info(igniteEvent, "Display message as: parameter1={} parameter2={}", new String("value1"), new Object());
-        Mockito.verify(LOGGER).info(ArgumentMatchers.contains("Display message as: parameter1={}"), ArgumentMatchers.<Object[]> any());
+        igniteLogger.info(igniteEvent, "Display message as: parameter1={} parameter2={}", "value1", new Object());
+        Mockito.verify(logger)
+                .info(
+                        ArgumentMatchers.contains("Display message as: parameter1={}"),
+                        ArgumentMatchers.<Object[]>any());
 
     }
 
@@ -96,27 +140,30 @@ public class TestIgniteLogger {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         Mockito.when(igniteEvent.getCorrelationId()).thenReturn("correlationIdMock");
         igniteLogger.info(igniteEvent, "InfoWithMsgAndThrowable");
-        Mockito.verify(LOGGER).info(Mockito.contains("InfoWithMsgAndThrowable"));
+        Mockito.verify(logger).info(Mockito.contains("InfoWithMsgAndThrowable"));
     }
 
     @Test
     public void testDebug() {
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
         igniteLogger.debug("DebugWithMsg");
-        Mockito.verify(LOGGER).debug(arg.capture());
+        Mockito.verify(logger).debug(arg.capture());
         assertEquals("DebugWithMsg", arg.getValue());
     }
 
     @Test
     public void testDebugWithMsgAndThrowable() {
         igniteLogger.debug("DebugWithMsgAndThrowable", new Throwable());
-        Mockito.verify(LOGGER).debug(Mockito.eq("DebugWithMsgAndThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger).debug(Mockito.eq("DebugWithMsgAndThrowable"), Mockito.<Throwable>any());
     }
 
     @Test
-    public void testDebugWithFormatnArgs() {
-        igniteLogger.debug("Display message as: parameter1={}", new String("value1"));
-        Mockito.verify(LOGGER).debug(ArgumentMatchers.contains("Display message as: parameter1={}"), ArgumentMatchers.<Object[]> any());
+    public void testDebugWithFormatNArgs() {
+        igniteLogger.debug("Display message as: parameter1={}", "value1");
+        Mockito.verify(logger)
+                .debug(
+                        ArgumentMatchers.contains("Display message as: parameter1={}"),
+                        ArgumentMatchers.<Object[]>any());
 
     }
 
@@ -124,42 +171,48 @@ public class TestIgniteLogger {
     public void testDebugWithIgniteEvent() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.debug(igniteEvent, "DebugWithMsgAndThrowable");
-        Mockito.verify(LOGGER).debug(ArgumentMatchers.endsWith("DebugWithMsgAndThrowable"));
+        Mockito.verify(logger).debug(ArgumentMatchers.endsWith("DebugWithMsgAndThrowable"));
     }
 
     @Test
-    public void testDebugWithIgniteEventnMsgnThrowable() {
+    public void testDebugWithIgniteEventnMsgNThrowable() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.debug(igniteEvent, "DebugWithIgniteEventnMsgnThrowable", new Throwable());
-        Mockito.verify(LOGGER).debug(Mockito.endsWith("DebugWithIgniteEventnMsgnThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger)
+                .debug(
+                        Mockito.endsWith("DebugWithIgniteEventnMsgnThrowable"),
+                        Mockito.<Throwable>any());
     }
 
     @Test
-    public void testDebugWithIgniteEventNFormatNArgs() {
+    public void testDebugWithIgniteEventNFormatNargs() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
-        igniteLogger.debug(igniteEvent, "Display message as: parameter1={} parameter2={}", new String("value1"), new Object());
-        Mockito.verify(LOGGER).debug(ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
-                ArgumentMatchers.<Object[]> any());
+        igniteLogger.debug(igniteEvent, "Display message as: parameter1={} parameter2={}", "value1", new Object());
+        Mockito.verify(logger).debug(ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
+                ArgumentMatchers.<Object[]>any());
     }
 
     @Test
     public void testWarn() {
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
         igniteLogger.warn("WarnWithMsg");
-        Mockito.verify(LOGGER).warn(arg.capture());
+        Mockito.verify(logger).warn(arg.capture());
         assertEquals("WarnWithMsg", arg.getValue());
     }
 
     @Test
     public void testWarnWithMsgAndThrowable() {
         igniteLogger.warn("WarnWithMsgAndThrowable", new Throwable());
-        Mockito.verify(LOGGER).warn(Mockito.eq("WarnWithMsgAndThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger).warn(Mockito.eq("WarnWithMsgAndThrowable"), Mockito.<Throwable>any());
     }
 
     @Test
-    public void testWarnWithFormatnArgs() {
-        igniteLogger.warn("Display message as: parameter1={}", new String("value1"));
-        Mockito.verify(LOGGER).warn(ArgumentMatchers.endsWith("Display message as: parameter1={}"), ArgumentMatchers.<Object[]> any());
+    public void testWarnWithFormatNArgs() {
+        igniteLogger.warn("Display message as: parameter1={}", "value1");
+        Mockito.verify(logger)
+                .warn(
+                        ArgumentMatchers.endsWith("Display message as: parameter1={}"),
+                        ArgumentMatchers.<Object[]>any());
 
     }
 
@@ -167,22 +220,27 @@ public class TestIgniteLogger {
     public void testWarnWithIgniteEvent() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.warn(igniteEvent, "WarnWithMsgAndThrowable");
-        Mockito.verify(LOGGER).warn(Mockito.endsWith("WarnWithMsgAndThrowable"));
+        Mockito.verify(logger).warn(Mockito.endsWith("WarnWithMsgAndThrowable"));
     }
 
     @Test
-    public void testWarnWithIgniteEventnMsgnThrowable() {
+    public void testWarnWithIgniteEventNMsgNThrowable() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.warn(igniteEvent, "WarnWithIgniteEventnMsgnThrowable", new Throwable());
-        Mockito.verify(LOGGER).warn(Mockito.endsWith("WarnWithIgniteEventnMsgnThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger)
+                .warn(
+                        Mockito.endsWith("WarnWithIgniteEventnMsgnThrowable"),
+                        Mockito.<Throwable>any());
     }
 
     @Test
-    public void testWarnWithIgniteEventNFormatNArgs() {
+    public void testWarnWithIgniteEventNFormatNargs() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
-        igniteLogger.warn(igniteEvent, "Display message as: parameter1={} parameter2={}", new String("value1"), new Object());
-        Mockito.verify(LOGGER).warn(ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
-                ArgumentMatchers.<Object[]> any());
+        igniteLogger.warn(igniteEvent, "Display message as: parameter1={} parameter2={}", "value1", new Object());
+        Mockito.verify(logger)
+                .warn(
+                        ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
+                        ArgumentMatchers.<Object[]>any());
 
     }
 
@@ -190,62 +248,76 @@ public class TestIgniteLogger {
     public void testTrace() {
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
         igniteLogger.trace("TraceWithMsg");
-        Mockito.verify(LOGGER).trace(arg.capture());
+        Mockito.verify(logger).trace(arg.capture());
         assertEquals("TraceWithMsg", arg.getValue());
     }
 
     @Test
     public void testTraceWithMsgAndThrowable() {
         igniteLogger.trace("TraceWithMsgAndThrowable", new Throwable());
-        Mockito.verify(LOGGER).trace(Mockito.eq("TraceWithMsgAndThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger).trace(Mockito.eq("TraceWithMsgAndThrowable"), Mockito.<Throwable>any());
     }
 
     @Test
-    public void testTraceWithFormatnArgs() {
-        igniteLogger.trace("Display message as: parameter1={}", new String("value1"));
-        Mockito.verify(LOGGER).trace(ArgumentMatchers.contains("Display message as: parameter1={}"), ArgumentMatchers.<Object[]> any());
+    public void testTraceWithFormatNArgs() {
+        igniteLogger.trace("Display message as: parameter1={}", "value1");
+        Mockito.verify(logger)
+                .trace(
+                        ArgumentMatchers.contains("Display message as: parameter1={}"),
+                        ArgumentMatchers.<Object[]>any());
     }
 
     @Test
     public void testTraceWithIgniteEvent() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.trace(igniteEvent, "TraceWithMsgAndThrowable");
-        Mockito.verify(LOGGER).trace(ArgumentMatchers.endsWith("TraceWithMsgAndThrowable"));
+        Mockito.verify(logger).trace(ArgumentMatchers.endsWith("TraceWithMsgAndThrowable"));
     }
 
     @Test
-    public void testTraceWithIgniteEventnMsgnThrowable() {
+    public void testTraceWithIgniteEventNMsgnThrowable() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.trace(igniteEvent, "TraceWithIgniteEventnMsgnThrowable", new Throwable());
-        Mockito.verify(LOGGER).trace(Mockito.endsWith("TraceWithIgniteEventnMsgnThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger)
+                .trace(
+                        Mockito.endsWith("TraceWithIgniteEventnMsgnThrowable"),
+                        Mockito.<Throwable>any());
     }
 
     @Test
-    public void testTraceWithIgniteEventNFormatNArgs() {
+    public void testTraceWithIgniteEventNFormatNargs() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
-        igniteLogger.trace(igniteEvent, "Display message as: parameter1={} parameter2={}", new String("value1"), new Object());
-        Mockito.verify(LOGGER).trace(ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
-                ArgumentMatchers.<Object[]> any());
+        igniteLogger.trace(igniteEvent, "Display message as: parameter1={} parameter2={}", "value1", new Object());
+        Mockito.verify(logger)
+                .trace(
+                        ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
+                        ArgumentMatchers.<Object[]>any());
     }
 
     @Test
     public void testError() {
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
         igniteLogger.error("ErrorWithMsg");
-        Mockito.verify(LOGGER).error(arg.capture());
+        Mockito.verify(logger).error(arg.capture());
         assertEquals("ErrorWithMsg", arg.getValue());
     }
 
     @Test
     public void testErrorWithMsgAndThrowable() {
         igniteLogger.error("ErrorWithMsgAndThrowable", new Throwable());
-        Mockito.verify(LOGGER).error(Mockito.eq("ErrorWithMsgAndThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger)
+                .error(
+                        Mockito.eq("ErrorWithMsgAndThrowable"),
+                        Mockito.<Throwable>any());
     }
 
     @Test
     public void testErrorWithFormatnArgs() {
-        igniteLogger.error("Display message as: parameter1={}", new String("value1"));
-        Mockito.verify(LOGGER).error(ArgumentMatchers.contains("Display message as: parameter1={}"), ArgumentMatchers.<Object[]> any());
+        igniteLogger.error("Display message as: parameter1={}", "value1");
+        Mockito.verify(logger)
+                .error(
+                        ArgumentMatchers.contains("Display message as: parameter1={}"),
+                        ArgumentMatchers.<Object[]>any());
 
     }
 
@@ -253,29 +325,34 @@ public class TestIgniteLogger {
     public void testErrorWithIgniteEvent() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.error(igniteEvent, "ErrorWithMsgAndThrowable");
-        Mockito.verify(LOGGER).error(ArgumentMatchers.endsWith("ErrorWithMsgAndThrowable"));
+        Mockito.verify(logger).error(ArgumentMatchers.endsWith("ErrorWithMsgAndThrowable"));
     }
 
     @Test
-    public void testErrorWithIgniteEventnMsgnThrowable() {
+    public void testErrorWithIgniteEventNMsgNThrowable() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.error(igniteEvent, "ErrorWithIgniteEventnMsgnThrowable", new Throwable());
-        Mockito.verify(LOGGER).error(Mockito.endsWith("ErrorWithIgniteEventnMsgnThrowable"), Mockito.<Throwable> any());
+        Mockito.verify(logger)
+                .error(
+                        Mockito.endsWith("ErrorWithIgniteEventnMsgnThrowable"),
+                        Mockito.<Throwable>any());
     }
 
     @Test
     public void testErrorWithIgniteEventNFormatNArgs() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
-        igniteLogger.error(igniteEvent, "Display message as: parameter1={} parameter2={}", new String("value1"), new Object());
-        Mockito.verify(LOGGER).error(ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
-                ArgumentMatchers.<Object[]> any());
+        igniteLogger.error(igniteEvent, "Display message as: parameter1={} parameter2={}", "value1", new Object());
+        Mockito.verify(logger)
+                .error(
+                        ArgumentMatchers.endsWith("Display message as: parameter1={} parameter2={}"),
+                        ArgumentMatchers.<Object[]>any());
 
     }
 
     @Test
-    public void testErrorWithIgniteEventnMsgnException() {
+    public void testErrorWithIgniteEventNMsgNException() {
         IgniteEvent igniteEvent = Mockito.mock(IgniteEvent.class);
         igniteLogger.error(igniteEvent, "EXCEPTION", new Exception());
-        Mockito.verify(LOGGER).error(Mockito.endsWith("EXCEPTION"), Mockito.<Exception> any());
+        Mockito.verify(logger).error(Mockito.endsWith("EXCEPTION"), Mockito.<Exception>any());
     }
 }

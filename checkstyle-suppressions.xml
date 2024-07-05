@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <suppress checks="AbbreviationAsWordInName|MemberName|ParameterName|ConstantName"/>
+    <suppress checks="PackageName" files="com.harman.ignite.domain.remoteInhibit" />
+    <suppress checks="TypeName" files=".*\.java"/>
+    <suppress checks="CyclomaticComplexity" files="com.harman.ignite.ro.processor.strategy.impl.AbstractStreamProcessor.java"/>
+    <suppress checks="MethodLength" files="com.harman.ignite.ro.processor.(strategy.impl.AbstractStreamProcessor|ROStreamProcessorUnitTest).java"/>
+</suppressions>

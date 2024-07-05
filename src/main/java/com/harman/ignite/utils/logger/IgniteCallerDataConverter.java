@@ -1,6 +1,40 @@
-package com.harman.ignite.utils.logger;
+/*
+ * *******************************************************************************
+ *
+ *  Copyright (c) 2023-24 Harman International
+ *
+ *
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ *  you may not use this file except in compliance with the License.
+ *
+ *  You may obtain a copy of the License at
+ *
+ *
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ *  See the License for the specific language governing permissions and
+ *
+ *  limitations under the License.
+ *
+ *
+ *
+ *  SPDX-License-Identifier: Apache-2.0
+ *
+ *  *******************************************************************************
+ */
 
-import java.util.List;
+package com.harman.ignite.utils.logger;
 
 import ch.qos.logback.classic.pattern.CallerDataConverter;
 import ch.qos.logback.classic.spi.CallerData;
@@ -10,14 +44,16 @@ import ch.qos.logback.core.boolex.EvaluationException;
 import ch.qos.logback.core.boolex.EventEvaluator;
 import ch.qos.logback.core.status.ErrorStatus;
 
+import java.util.List;
+
 /**
- * This is used to customize log messages. This class overrides methods from
- * CallerDataConverter and customize log messages.
- * 
- * Customizations include: 1. removing of "caller" from log message. 2. Printing
- * short-form of fully qualified package
- * name(eg:com.harman.ignite.utils.logger.IgniteCallerDataConverter will be
- * replaced as c.h.i.u.l.IgniteCallerDataConverter)
+ * This is used to customize log messages.
+ * This class overrides methods from CallerDataConverter and customize log messages.<br>
+ * Customizations include:<br>
+ * 1. removing of "caller" from log message.<br>
+ * 2. Printing short-form of fully qualified package <br>
+ * name(eg:com.harman.ignite.utils.logger.IgniteCallerDataConverter
+ * will be replaced as c.h.i.u.l.IgniteCallerDataConverter)
  *
  * @author vishnu.k;
  */
@@ -32,9 +68,10 @@ public class IgniteCallerDataConverter extends CallerDataConverter {
     public String convert(ILoggingEvent logEvent) {
         if (eventEvaluatorList != null) {
             boolean printCallerData = false;
+
             for (int i = 0; i < eventEvaluatorList.size(); i++) {
                 EventEvaluator<ILoggingEvent> eventEvaluator = eventEvaluatorList.get(i);
-                if(canEvaluatorProcessLogEvent(logEvent, eventEvaluator)) {
+                if (canEvaluatorProcessLogEvent(logEvent, eventEvaluator)) {
                     printCallerData = true;
                     break;
                 }
@@ -58,8 +95,7 @@ public class IgniteCallerDataConverter extends CallerDataConverter {
             buf.append(" ");
 
             return buf.toString();
-        }
-        else {
+        } else {
             return CallerData.CALLER_DATA_NA;
         }
     }
@@ -84,10 +120,10 @@ public class IgniteCallerDataConverter extends CallerDataConverter {
     private void processErrorCount(EventEvaluator<ILoggingEvent> ee, EvaluationException eex) {
         if (errCount < MAX_ERR_COUNT) {
             addError("Exception thrown for evaluator named [" + ee.getName() + "]", eex);
-        }
-        else if (errCount == MAX_ERR_COUNT) {
-            ErrorStatus errorStatus = new ErrorStatus("Exception thrown for evaluator named [" + ee.getName() + "].", this,
-                    eex);
+        } else if (errCount == MAX_ERR_COUNT) {
+            ErrorStatus errorStatus = new ErrorStatus(
+                    "Exception thrown for evaluator named [" + ee.getName() + "].",
+                    this, eex);
             errorStatus.add(new ErrorStatus("This was the last warning about this evaluator's errors."
                     + "We don't want the StatusManager to get flooded.", this));
             addStatus(errorStatus);

@@ -1,9 +1,46 @@
+/*
+ * *******************************************************************************
+ *
+ *  Copyright (c) 2023-24 Harman International
+ *
+ *
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ *  you may not use this file except in compliance with the License.
+ *
+ *  You may obtain a copy of the License at
+ *
+ *
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ *  See the License for the specific language governing permissions and
+ *
+ *  limitations under the License.
+ *
+ *
+ *
+ *  SPDX-License-Identifier: Apache-2.0
+ *
+ *  *******************************************************************************
+ */
+
 package com.harman.ignite.diagnostic;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
+import com.harman.ignite.utils.logger.IgniteLogger;
+import com.harman.ignite.utils.logger.IgniteLoggerFactory;
+import com.harman.ignite.utils.metrics.IgniteDiagnosticGuage;
+import io.prometheus.client.Collector.MetricFamilySamples;
+import io.prometheus.client.CollectorRegistry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,13 +52,15 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import com.harman.ignite.utils.logger.IgniteLogger;
-import com.harman.ignite.utils.logger.IgniteLoggerFactory;
-import com.harman.ignite.utils.metrics.IgniteDiagnosticGuage;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
-import io.prometheus.client.Collector.MetricFamilySamples;
-import io.prometheus.client.CollectorRegistry;
-
+/**
+ * Test class for DiagnosticService.
+ *
+ * @see DiagnosticService
+ */
 public class DiagnosticUnitTest {
     private static final IgniteLogger LOGGER = IgniteLoggerFactory.getLogger(DiagnosticUnitTest.class);
     @Rule
@@ -33,6 +72,9 @@ public class DiagnosticUnitTest {
     @Mock
     private IgniteDiagnosticGuage diagnosticGuage;
 
+    /**
+     * Setup the test.
+     */
     @Before
     public void setUp() {
         clearMetrics();
@@ -43,12 +85,11 @@ public class DiagnosticUnitTest {
     }
 
     /**
-     * If two DiagnosticReporters have same name it should throw runtime
-     * exception
+     * If two DiagnosticReporters have same name it should throw runtime exception.
      */
     @Test(expected = RuntimeException.class)
     public void testInitTwoReportersWithSameName() {
-        List<DiagnosticReporter> reporters = new ArrayList<DiagnosticReporter>();
+        final List<DiagnosticReporter> reporters = new ArrayList<>();
         TestDiagnosticReporter reporter1 = new TestDiagnosticReporter();
         reporter1.setEnabled(true);
         reporter1.setMetricName("Metric1");
@@ -66,12 +107,11 @@ public class DiagnosticUnitTest {
     }
 
     /**
-     * If a DiagnosticReporter is disabled it should not be added in the list of
-     * DiagnosticReporters
+     * If a DiagnosticReporter is disabled it should not be added in the list of DiagnosticReporters.
      */
     @Test
-    public void testInitWithDisabledreporter() {
-        List<DiagnosticReporter> reporters = new ArrayList<DiagnosticReporter>();
+    public void testInitWithDisabledReporter() {
+        final List<DiagnosticReporter> reporters = new ArrayList<>();
         TestDiagnosticReporter reporter1 = new TestDiagnosticReporter();
         reporter1.setEnabled(true);
         reporter1.setMetricName("Metric1");
@@ -94,7 +134,7 @@ public class DiagnosticUnitTest {
 
     @Test
     public void testMetricPublishing() {
-        List<DiagnosticReporter> reporters = new ArrayList<DiagnosticReporter>();
+        final List<DiagnosticReporter> reporters = new ArrayList<>();
         TestDiagnosticReporter reporter1 = new TestDiagnosticReporter();
         reporter1.setEnabled(true);
         reporter1.setMetricName("Metric1");
@@ -118,13 +158,20 @@ public class DiagnosticUnitTest {
         diagnosticService.setReporters(reporters);
         diagnosticService.triggerDiagnosis();
 
-        Mockito.verify(diagnosticGuage, Mockito.times(1)).set(DiagnosticResult.FAIL.getValue(), "localhost", "Metric1", "Metric1Key1");
-        Mockito.verify(diagnosticGuage, Mockito.times(1)).set(DiagnosticResult.PASS.getValue(), "localhost", "Metric1", "Metric1Key2");
-        Mockito.verify(diagnosticGuage, Mockito.times(1)).set(DiagnosticResult.FAIL.getValue(), "localhost", "Metric1", "Metric1Key3");
-        Mockito.verify(diagnosticGuage, Mockito.times(1)).set(DiagnosticResult.PASS.getValue(), "localhost", "Metric2", "Metric2Key1");
+        Mockito.verify(diagnosticGuage, Mockito.times(1))
+                .set(DiagnosticResult.FAIL.getValue(), "localhost", "Metric1", "Metric1Key1");
+        Mockito.verify(diagnosticGuage, Mockito.times(1))
+                .set(DiagnosticResult.PASS.getValue(), "localhost", "Metric1", "Metric1Key2");
+        Mockito.verify(diagnosticGuage, Mockito.times(1))
+                .set(DiagnosticResult.FAIL.getValue(), "localhost", "Metric1", "Metric1Key3");
+        Mockito.verify(diagnosticGuage, Mockito.times(1))
+                .set(DiagnosticResult.PASS.getValue(), "localhost", "Metric2", "Metric2Key1");
 
     }
 
+    /**
+     * Clear all the metrics.
+     */
     public void clearMetrics() {
         Enumeration<MetricFamilySamples> mfsEnumerator = CollectorRegistry.defaultRegistry.metricFamilySamples();
         while (mfsEnumerator.hasMoreElements()) {

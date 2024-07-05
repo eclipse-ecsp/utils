@@ -1,24 +1,64 @@
-package com.harman.ignite.healthcheck;
+/*
+ * *******************************************************************************
+ *
+ *  Copyright (c) 2023-24 Harman International
+ *
+ *
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ *  you may not use this file except in compliance with the License.
+ *
+ *  You may obtain a copy of the License at
+ *
+ *
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ *  See the License for the specific language governing permissions and
+ *
+ *  limitations under the License.
+ *
+ *
+ *
+ *  SPDX-License-Identifier: Apache-2.0
+ *
+ *  *******************************************************************************
+ */
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
+package com.harman.ignite.healthcheck;
 
 import com.harman.ignite.utils.logger.IgniteLogger;
 import com.harman.ignite.utils.logger.IgniteLoggerFactory;
 
-public class ThreadUtils {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Utility class for thread related operations.
+ */
+public abstract class ThreadUtils {
+
     private static final IgniteLogger LOGGER = IgniteLoggerFactory.getLogger(ThreadUtils.class);
 
-    /**
-     * Shuts down an executor reliably. Optionally allows shutting down the JVM
-     * if executor doesn't shutdown
-     * 
-     * @param exec
-     * @param waitTimeMs
-     * @param exitOnFailure
-     */
     private ThreadUtils() {
     }
+    
+    /**
+     * Shuts down an executor reliably. Optionally allows shutting down the JVM if executor doesn't shutdown
+     *
+     * @param exec       Executor service to shut down
+     * @param waitTimeMs Time to wait for executor to shut down
+     * @param exitOnFailure Exit the JVM if executor doesn't shut down
+     */
     public static void shutdownExecutor(ExecutorService exec, int waitTimeMs, boolean exitOnFailure) {
         if (exec != null && !exec.isShutdown()) {
             LOGGER.info("Shutting down executor service");
@@ -26,7 +66,8 @@ public class ThreadUtils {
             try {
                 // Wait a while for existing tasks to terminate
                 if (!exec.awaitTermination(waitTimeMs, TimeUnit.MILLISECONDS)) {
-                    LOGGER.info("Shutting down executor service forcefully as it has not responded to graceful shutdown");
+                    LOGGER.info("Shutting down executor service forcefully,"
+                            + " as it has not responded to graceful shutdown");
                     exec.shutdownNow(); // Cancel currently executing tasks
                     // Wait a while for tasks to respond to being cancelled
                     execWithAwaitTermination(exec, waitTimeMs, exitOnFailure);
@@ -44,7 +85,8 @@ public class ThreadUtils {
         }
     }
 
-    private static void execWithAwaitTermination(ExecutorService exec, int waitTimeMs, boolean exitOnFailure) throws InterruptedException {
+    private static void execWithAwaitTermination(ExecutorService exec, int waitTimeMs, boolean exitOnFailure)
+            throws InterruptedException {
         if (!exec.awaitTermination(waitTimeMs, TimeUnit.MILLISECONDS)) {
             LOGGER.error("Executor service not closed after waiting {} ms", waitTimeMs);
             if (exitOnFailure) {

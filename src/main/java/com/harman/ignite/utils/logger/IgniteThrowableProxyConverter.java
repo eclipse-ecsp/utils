@@ -1,8 +1,40 @@
-package com.harman.ignite.utils.logger;
+/*
+ * *******************************************************************************
+ *
+ *  Copyright (c) 2023-24 Harman International
+ *
+ *
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ *  you may not use this file except in compliance with the License.
+ *
+ *  You may obtain a copy of the License at
+ *
+ *
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ *  See the License for the specific language governing permissions and
+ *
+ *  limitations under the License.
+ *
+ *
+ *
+ *  SPDX-License-Identifier: Apache-2.0
+ *
+ *  *******************************************************************************
+ */
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+package com.harman.ignite.utils.logger;
 
 import ch.qos.logback.classic.pattern.ThrowableHandlingConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -15,13 +47,17 @@ import ch.qos.logback.core.boolex.EvaluationException;
 import ch.qos.logback.core.boolex.EventEvaluator;
 import ch.qos.logback.core.status.ErrorStatus;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
- * Add a stack trace in case the event contains a Throwable. This is used to
- * customize error message. Customizations include 1. removing of "at" from
- * stack trace. 2. printing full stack-trace in single line separated by
- * comma(,)
- * 
- * @author vishnu.k;
+ * Add a stack trace in case the event contains a Throwable. This is used to customize error message. <br>
+ * Customizations include: <br>
+ * 1. removing of "at" from stack trace. <br>
+ * 2. printing full stack-trace in single line separated by comma(,) <br>
+ *
+ * @author vishnu.k
  */
 public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
 
@@ -33,6 +69,10 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
 
     int errorCount = 0;
 
+
+    /**
+     * This method is used to start the converter.
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void start() {
@@ -48,11 +88,11 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
                 Context context = getContext();
                 Map<String, EventEvaluator<?>> evaluatorMap = (Map<String, EventEvaluator<?>>) context
                         .getObject(CoreConstants.EVALUATOR_MAP);
-                EventEvaluator<ILoggingEvent> ee = (EventEvaluator<ILoggingEvent>) evaluatorMap.get(evaluatorOrIgnoredStackTraceLine);
+                EventEvaluator<ILoggingEvent> ee = (EventEvaluator<ILoggingEvent>) evaluatorMap
+                        .get(evaluatorOrIgnoredStackTraceLine);
                 if (ee != null) {
                     addEvaluator(ee);
-                }
-                else {
+                } else {
                     addIgnoreStackTraceLine(evaluatorOrIgnoredStackTraceLine);
                 }
             }
@@ -60,19 +100,17 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
         super.start();
     }
 
+
     private void createLengthOption(String lengthStr) {
         if (lengthStr == null) {
             lengthOption = Integer.MAX_VALUE;
-        }
-        else {
+        } else {
             lengthStr = lengthStr.toLowerCase();
             if ("full".equals(lengthStr)) {
                 lengthOption = Integer.MAX_VALUE;
-            }
-            else if ("short".equals(lengthStr)) {
+            } else if ("short".equals(lengthStr)) {
                 lengthOption = 1;
-            }
-            else {
+            } else {
                 try {
                     lengthOption = Integer.parseInt(lengthStr);
                 } catch (NumberFormatException nfe) {
@@ -107,6 +145,12 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
         // nop
     }
 
+    /**
+     * Convert the event to a string.
+     *
+     * @param event the log event
+     * @return the string representation of the event
+     */
     public String convert(ILoggingEvent event) {
 
         IThrowableProxy tp = event.getThrowableProxy();
@@ -116,8 +160,7 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
         // an evaluator match will cause stack printing to be skipped
         if (evaluatorList != null) {
             boolean printStack = true;
-            for (int i = 0; i < evaluatorList.size(); i++) {
-                EventEvaluator<ILoggingEvent> ee = evaluatorList.get(i);
+            for (EventEvaluator<ILoggingEvent> ee : evaluatorList) {
                 try {
                     if (ee.evaluate(event)) {
                         printStack = false;
@@ -145,14 +188,18 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
     }
 
     private void recursiveAppend(StringBuilder sb, String prefix, int indent, IThrowableProxy tp) {
-        if (tp == null)
+        if (tp == null) {
             return;
+        }
         subjoinFirstLine(sb, prefix, indent, tp);
-        subjoinSTEPArray(sb, indent, tp);
+        subjoinStepArray(sb, indent, tp);
         IThrowableProxy[] suppressed = tp.getSuppressed();
         if (suppressed != null) {
             for (IThrowableProxy current : suppressed) {
-                recursiveAppend(sb, CoreConstants.SUPPRESSED, indent + ThrowableProxyUtil.SUPPRESSED_EXCEPTION_INDENT, current);
+                recursiveAppend(sb,
+                        CoreConstants.SUPPRESSED,
+                        indent + ThrowableProxyUtil.SUPPRESSED_EXCEPTION_INDENT,
+                        current);
             }
         }
         recursiveAppend(sb, CoreConstants.CAUSED_BY, indent, tp.getCause());
@@ -170,7 +217,7 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
         buf.append(tp.getClassName()).append(": ").append(tp.getMessage());
     }
 
-    protected void subjoinSTEPArray(StringBuilder buf, int indent, IThrowableProxy tp) {
+    protected void subjoinStepArray(StringBuilder buf, int indent, IThrowableProxy tp) {
         StackTraceElementProxy[] stepArray = tp.getStackTraceElementProxyArray();
         int commonFrames = tp.getCommonFrames();
 
@@ -189,8 +236,7 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
                 printStackLine(buf, ignoredCount, element);
                 ignoredCount = 0;
                 buf.append(CoreConstants.LINE_SEPARATOR);
-            }
-            else {
+            } else {
                 ++ignoredCount;
                 if (maxIndex < stepArray.length) {
                     ++maxIndex;
@@ -204,7 +250,11 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
 
         if (commonFrames > 0 && unrestrictedPrinting) {
             ThrowableProxyUtil.indent(buf, indent);
-            buf.append("... ").append(tp.getCommonFrames()).append(" common frames omitted").append(CoreConstants.LINE_SEPARATOR);
+            buf
+                    .append("... ")
+                    .append(tp.getCommonFrames())
+                    .append(" common frames omitted")
+                    .append(CoreConstants.LINE_SEPARATOR);
         }
     }
 
@@ -234,9 +284,10 @@ public class IgniteThrowableProxyConverter extends ThrowableHandlingConverter {
     private void processErrorCount(EventEvaluator<ILoggingEvent> ee, EvaluationException eex) {
         if (errorCount < CoreConstants.MAX_ERROR_COUNT) {
             addError("Exception thrown for evaluator named [" + ee.getName() + "]", eex);
-        }
-        else if (errorCount == CoreConstants.MAX_ERROR_COUNT) {
-            ErrorStatus errorStatus = new ErrorStatus("Exception thrown for evaluator named [" + ee.getName() + "].", this,
+        } else if (errorCount == CoreConstants.MAX_ERROR_COUNT) {
+            ErrorStatus errorStatus = new ErrorStatus(
+                    "Exception thrown for evaluator named [" + ee.getName() + "].",
+                    this,
                     eex);
             errorStatus.add(new ErrorStatus("This was the last warning about this evaluator's errors."
                     + "We don't want the StatusManager to get flooded.", this));
