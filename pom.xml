@@ -38,7 +38,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.harman.ignite</groupId>
     <artifactId>ignite-utils</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <name>ignite-utils</name>
     <description>Consists of Ignite utils</description>
     <url>http://maven.apache.org</url>
@@ -54,7 +54,7 @@
         </checkstyle.suppressions.location>
         <sonar.java.checkstyle.reportPaths>${project.build.directory}/checkstyle-result.xml
         </sonar.java.checkstyle.reportPaths>
-		<ignite.entities.version>3.0.2</ignite.entities.version>
+	<ignite.entities.version>3.0.3</ignite.entities.version>
         <!-- Sonar plugin properties -->
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <sonar.java.source>17</sonar.java.source>
