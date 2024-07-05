@@ -62,7 +62,7 @@ public class DuplicateExceptionFilter extends TurboFilter {
 
     // provide suppress time in milliseconds
     @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
-    private long suppressTimeInMS = 10 * 60 * 1000;
+    private long suppressTimeInMS = 10L * 60 * 1000;
 
     @Override
     public void start() {
