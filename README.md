@@ -162,7 +162,8 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to raise an 
 
 ## License
 
-This project is licensed under the XXX License - see the [LICENSE.md](./LICENSE.md) file for details.
+This project is licensed under the Apache-2.0 License - see the [LICENSE](./LICENSE) file for details.
+
 
 ## Announcements
 
