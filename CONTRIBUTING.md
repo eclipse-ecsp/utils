@@ -15,7 +15,7 @@ By participating in this project you agree to abide by its terms.
 
 Before you create a new Issue:
 
-1. Please make sure there is no [open issue](https://github.com/HarmanInt/ics/utils/issues) yet.
+1. Please make sure there is no [open issue](https://github.com/HARMAN-Automotive/utils/issues) yet.
 2. If it is a bug report, include the steps to reproduce the issue and please create a reproducible test case.
 3. If it is a feature request, please share the motivation for the new feature and how you would implement it.
 4. Please include links to the corresponding GitHub documentation.
@@ -55,3 +55,11 @@ To run a method from within a test
 - Push your changes to your topic branch on your fork of the repo.
 - Submit a pull request from your topic branch to the main branch on the `utils` repository.
 - Be sure to tag any issues your pull request is taking care of / contributing to. \* Adding "Closes #123" to a pull request description will auto close the issue once the pull request is merged in.
+
+## Merging a PR and Shipping a release (maintainers only)
+
+- A PR can only be merged into main branch by a maintainer if: CI is passing, approved by another maintainer and is up-to-date with the default branch.
+- Ensure that the PR is tagged with related [issue](https://github.com/HARMAN-Automotive/utils/issues) it intends to resolve.
+- Change log for all the PRs merged since the last release should be included in the release notes.
+- Automatically generated release notes is configured for the repo and must be used while creating a new release tag.
+

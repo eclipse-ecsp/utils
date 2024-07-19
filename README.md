@@ -154,7 +154,7 @@ See also the list of [contributors](https://github.com/HARMANInt/ics/utils/contr
 Please read [SECURITY.md](./SECURITY.md) to raise any security related issues.
 
 ## Support
-Please write to us at [ignite@harman.com](mailto:ignite@harman.com)
+Please write to us at [csp@harman.com](mailto:csp@harman.com)
 
 ## Troubleshooting
 
@@ -166,9 +166,6 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](./LICE
 
 
 ## Announcements
-
-All updates to this library are documented in our [Release Notes](./release_notes.txt) and [releases](https://github.com/HARMANInt/ics/utils/releases).
-For the versions available, see the [tags on this repository](https://github.com/HARMANInt/ics/utils/tags).
-
-
+All updates to this library are documented in our [Release Notes](./release_notes.txt) and [releases](https://github.com/HARMAN-Automotive/utils/releases).
+For the versions available, see the [tags on this repository](https://github.com/HARMAN-Automotive/utils/tags).
 
