@@ -42,6 +42,29 @@
     <name>ignite-utils</name>
     <description>Consists of Ignite utils</description>
     <url>http://maven.apache.org</url>
+
+    <scm>
+        <connection>scm:git:https://github.com/HARMAN-Automotive/utils.git</connection>
+        <url>https://github.com/HARMAN-Automotive/utils</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>Apache-2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/HARMAN-Automotive/utils/issues</url>
+    </issueManagement>
+
+    <organization>
+        <url>https://github.com/HARMAN-Automotive</url>
+        <name>HARMAN Automotive</name>
+    </organization>
 	
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -193,6 +216,34 @@
                         <target>17</target>
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.cyclonedx</groupId>
+                    <artifactId>cyclonedx-maven-plugin</artifactId>
+                    <version>2.7.10</version>
+                    <configuration>
+                        <projectType>application</projectType>
+                        <schemaVersion>1.5</schemaVersion>
+                        <includeBomSerialNumber>true</includeBomSerialNumber>
+                        <includeCompileScope>true</includeCompileScope>
+                        <includeProvidedScope>true</includeProvidedScope>
+                        <includeRuntimeScope>true</includeRuntimeScope>
+                        <includeSystemScope>true</includeSystemScope>
+                        <includeTestScope>true</includeTestScope>
+                        <includeLicenseText>true</includeLicenseText>
+                        <outputFormat>all</outputFormat>
+                        <outputDirectory>${project.basedir}/sbom</outputDirectory>
+                        <verbose>false</verbose>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>makeAggregateBom</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -210,6 +261,10 @@
                         </fileset>
                     </filesets>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
