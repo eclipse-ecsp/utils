@@ -58,6 +58,14 @@ To run a method from within a test
 `utils` project serves as a library for the services. It is not meant to be deployed as a service in any cloud environment.
 
 ## Usage
+Add the following dependency in the target project
+```
+<dependency>
+  <groupId>com.harman.ignite</groupId>
+  <artifactId>ignite-utils</artifactId>
+  <version>3.X.X</version>
+</dependency>
+```
 
 ### Logging
 
