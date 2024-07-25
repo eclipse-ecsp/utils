@@ -1,15 +1,15 @@
 # How to contribute
 
 Support and contributions from the open source community are essential for keeping
-`utils` up to date and always improving! There are a few guidelines that we need
+`HARMAN-Automotive/utils` up to date and always improving! There are a few guidelines that we need
 contributors to follow to keep the project consistent, as well as allow us to keep
-maintaining `utils` in a reasonable amount of time.
+maintaining `HARMAN-Automotive/utils` in a reasonable amount of time.
 
 Please note that this project is released with a [Contributor Code of Conduct][coc].
 
 By participating in this project you agree to abide by its terms.
 
-[coc]: ./CODE_OF_CONDUCT.md
+[coc]: ./CODE_OF_CONDUCT.template
 
 ## Creating an Issue
 
@@ -22,11 +22,14 @@ Before you create a new Issue:
 
 ## Coding style check configuration
 
-[harman_checks.xml](./harman_checks.xml) is the HARMAN coding standard to follow while writing new/updating existing code.
+[checkstyle.xml](./checkstyle.xml) is the HARMAN coding standard to follow while writing new/updating existing code.
 
-Checkstyle plugin [maven-checkstyle-plugin:3.2.1](https://maven.apache.org/plugins/maven-checkstyle-plugin/) is integrated in [pom.xml](./pom.xml) which runs in the `validate` phase and `check` goal of the maven lifecycle and fails the build if there are any checkstyle errors in the project.
+Checkstyle plugin [maven-checkstyle-plugin:3.2.1](https://maven.apache.org/plugins/maven-checkstyle-plugin/) 
+is integrated in [pom.xml](./pom.xml) which runs in the `validate` phase and `check` goal 
+of the maven lifecycle and fails the build if there are any checkstyle errors in the project.
 
-There are a few coding guidelines to be followed manually before requesting for a pull request, the same can be found here:
+There are a few coding guidelines to be followed manually before requesting for a pull request,
+the same can be found here:
 
 [Manual coding guidelines](https://confluence.harman.com/confluence/pages/viewpage.action?spaceKey=SWPP&title=CI4.3+-+Coding+Guideline+for+Java)
 
@@ -34,15 +37,13 @@ There are a few coding guidelines to be followed manually before requesting for 
 
 If you want to submit a bug fix or new feature, make sure that all tests are passing.
 
-```mvn test```
+```mvn clean test```
 
-Or run a specific test
+Or run a specific module tests: (example module-1)
 
-```mvn test -Dtest="TheFirstUnitTest"```
-
-To run a method from within a test
-
-```mvn test -Dtest="TheSecondUnitTest#whenTestCase2_thenPrintTest2_1"```
+```
+mvn clean test -pl :module-1
+```
 
 ## Making Changes
 
@@ -53,8 +54,10 @@ To run a method from within a test
 ## Submitting the Pull Request
 
 - Push your changes to your topic branch on your fork of the repo.
-- Submit a pull request from your topic branch to the main branch on the `utils` repository.
-- Be sure to tag any issues your pull request is taking care of / contributing to. \* Adding "Closes #123" to a pull request description will auto close the issue once the pull request is merged in.
+- Submit a pull request from your topic branch to the [main](https://github.com/HARMAN-Automotive/utils) branch on the `HARMAN-Automotive/utils` repository.
+- Be sure to tag any issues your pull request is taking care of / contributing to. \* Adding "Closes #123"
+to a pull request description will auto close the issue once the pull request is merged in.
+
 
 ## Merging a PR and Shipping a release (maintainers only)
 
@@ -62,4 +65,3 @@ To run a method from within a test
 - Ensure that the PR is tagged with related [issue](https://github.com/HARMAN-Automotive/utils/issues) it intends to resolve.
 - Change log for all the PRs merged since the last release should be included in the release notes.
 - Automatically generated release notes is configured for the repo and must be used while creating a new release tag.
-
