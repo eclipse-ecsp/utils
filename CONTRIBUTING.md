@@ -20,19 +20,6 @@ Before you create a new Issue:
 3. If it is a feature request, please share the motivation for the new feature and how you would implement it.
 4. Please include links to the corresponding GitHub documentation.
 
-## Coding style check configuration
-
-[checkstyle.xml](./checkstyle.xml) is the HARMAN coding standard to follow while writing new/updating existing code.
-
-Checkstyle plugin [maven-checkstyle-plugin:3.2.1](https://maven.apache.org/plugins/maven-checkstyle-plugin/) 
-is integrated in [pom.xml](./pom.xml) which runs in the `validate` phase and `check` goal 
-of the maven lifecycle and fails the build if there are any checkstyle errors in the project.
-
-There are a few coding guidelines to be followed manually before requesting for a pull request,
-the same can be found here:
-
-[Manual coding guidelines](https://confluence.harman.com/confluence/pages/viewpage.action?spaceKey=SWPP&title=CI4.3+-+Coding+Guideline+for+Java)
-
 ## Tests
 
 If you want to submit a bug fix or new feature, make sure that all tests are passing.
