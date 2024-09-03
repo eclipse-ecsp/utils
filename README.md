@@ -1,7 +1,11 @@
-[<img src="./images/harman.png" width="300" height="150"/>](harman.png)
+[<img src="./images/logo.png" width="400" height="200"/>](./images/logo.png)
 
-# ignite-utils
-`utils` project provides the below functionalities to a service.
+[![Build](https://github.com/HARMAN-Automotive/utils/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/HARMAN-Automotive/utils/actions/workflows/maven-publish.yml)
+[![License Compliance](https://github.com/Harman-Automotive/utils/actions/workflows/license-compliance.yml/badge.svg)](https://github.com/Harman-Automotive/utils/actions/workflows/license-compliance.yml)
+
+
+# Utils
+`Utils` project provides the below functionalities to a service.
 
 1. Centralized logging.
 2. Health checks.
