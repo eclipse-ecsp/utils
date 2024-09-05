@@ -49,7 +49,7 @@ from the command line interface.
 
 ```mvn test```
 
-Or run a specific test
+Or run a specific test 
 
 ```mvn test -Dtest="TheFirstUnitTest"```
 
