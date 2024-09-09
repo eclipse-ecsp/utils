@@ -1,11 +1,11 @@
 [<img src="./images/logo.png" width="400" height="200"/>](./images/logo.png)
 
-[![Build](https://github.com/HARMAN-Automotive/utils/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/HARMAN-Automotive/utils/actions/workflows/maven-publish.yml)
-[![License Compliance](https://github.com/Harman-Automotive/utils/actions/workflows/license-compliance.yml/badge.svg)](https://github.com/Harman-Automotive/utils/actions/workflows/license-compliance.yml)
+[![Build](https://github.com/eclipse-ecsp/utils/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/eclipse-ecsp/utils/actions/workflows/maven-publish.yml)
+[![License Compliance](https://github.com/eclipse-ecsp/utils/actions/workflows/license-compliance.yml/badge.svg)](https://github.com/eclipse-ecsp/utils/actions/workflows/license-compliance.yml)
 
 
 # Utils
-`Utils` project provides the below functionalities to a service.
+The `utils` project provides the following functionalities to a service:
 
 1. Centralized logging.
 2. Health checks.
@@ -37,7 +37,7 @@ from the command line interface.
 ### Prerequisites
 
 1. Maven
-2. Java 11
+2. Java 17
 
 ### Installation
 
@@ -49,7 +49,7 @@ from the command line interface.
 
 ```mvn test```
 
-Or run a specific test 
+Or run a specific test
 
 ```mvn test -Dtest="TheFirstUnitTest"```
 
@@ -80,7 +80,7 @@ Example:
 private static IgniteLogger logger = IgniteLoggerFactory.getLogger(ProtocolTranslatorPreProcessor.class);
 ```
 
-The `IgniteLogger` is an extension of slf4j logger. All the concepts related to logging an error message, exceptions, stack traces, etc. alongwith the different log levels remain the same.
+The `IgniteLogger` is an extension of slf4j logger. All the concepts related to logging an error message, exception, stack traces, etc. alongwith the different log levels remain the same.
 
 ### Health Check
 
@@ -139,7 +139,7 @@ public class GenericIgniteHistogram extends AbstractIgniteHistogram {
 
 |                           Dependency                            | Purpose                                    |
 |:---------------------------------------------------------------:|:-------------------------------------------|
-|  [Ignite Entities](https://github.com/HARMANInt/ics/entities)   | The library to implement database entities |
+|  [Entities](https://github.com/eclipse-ecsp/entities)           | The library to implement database entities |
 | [Spring Framework](https://spring.io/projects/spring-framework) | The core spring support                    |
 |     [Spring Boot](https://spring.io/projects/spring-boot/)      | The web framework used                     |
 |               [Maven](https://maven.apache.org/)                | Dependency Management                      |
@@ -159,14 +159,15 @@ Please read [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for details on our code o
 * **Kaushal Arora** - *Initial work* 
 * **Ashish Kumar Singh** - *Coding guidelines*
 
-See also the list of [contributors](https://github.com/HARMANInt/ics/utils/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/eclipse-ecsp/utils/contributors) who participated in this project.
 
 ## Security Contact Information
 
 Please read [SECURITY.md](./SECURITY.md) to raise any security related issues.
 
 ## Support
-Please write to us at [csp@harman.com](mailto:csp@harman.com)
+
+Contact the project developers via the project's "dev" list - https://accounts.eclipse.org/mailing-list/ecsp-dev
 
 ## Troubleshooting
 
@@ -178,9 +179,5 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](./LICE
 
 
 ## Announcements
-All updates to this library are documented in our [Release Notes](./release_notes.txt) and [releases](https://github.com/HARMAN-Automotive/utils/releases).
-For the versions available, see the [tags on this repository](https://github.com/HARMAN-Automotive/utils/tags).
-
-## Test commit
-Test commit 
-Test commit 2
+All updates to this library are documented in our [Release Notes](./release_notes.txt) and [releases](https://github.com/eclipse-ecsp/utils/releases).
+For the versions available, see the [tags on this repository](https://github.com/eclipse-ecsp/utils/tags).
