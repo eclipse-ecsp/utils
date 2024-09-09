@@ -65,9 +65,9 @@ To run a method from within a test
 Add the following dependency in the target project
 ```
 <dependency>
-  <groupId>com.harman.ignite</groupId>
-  <artifactId>ignite-utils</artifactId>
-  <version>3.X.X</version>
+  <groupId>com.eclipse.ecsp</groupId>
+  <artifactId>utils</artifactId>
+  <version>1.X.X</version>
 </dependency>
 ```
 
