@@ -36,16 +36,16 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.harman.ignite</groupId>
-    <artifactId>ignite-utils</artifactId>
-    <version>3.0.3</version>
-    <name>ignite-utils</name>
-    <description>Consists of Ignite utils</description>
+    <groupId>com.eclipse.ecsp</groupId>
+    <artifactId>utils</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>utils</name>
+    <description>Utils library</description>
     <url>http://maven.apache.org</url>
 
     <scm>
-        <connection>scm:git:https://github.com/HARMAN-Automotive/utils.git</connection>
-        <url>https://github.com/HARMAN-Automotive/utils</url>
+        <connection>scm:git:https://github.com/eclipse-ecsp/utils.git</connection>
+        <url>https://github.com/eclipse-ecsp/utils</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -58,17 +58,16 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/HARMAN-Automotive/utils/issues</url>
+        <url>https://github.com/eclipse-ecsp/utils/issues</url>
     </issueManagement>
 
     <organization>
-        <url>https://github.com/HARMAN-Automotive</url>
-        <name>HARMAN Automotive</name>
+        <url>https://github.com/eclipse-ecsp</url>
+        <name>eclipse-ecsp</name>
     </organization>
 	
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <artifactory.repo>https://artifactory-fr.harman.com/artifactory</artifactory.repo>
         <!--Checkstyle plugin properties -->
         <checkstyle.version>10.13.0</checkstyle.version>
         <maven.checkstyle.version>3.3.1</maven.checkstyle.version>
@@ -104,14 +103,14 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub OWNER Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/harman-automotive/csp-central-repo</url>
+			<url>https://maven.pkg.github.com/eclipse-ecsp/utils</url>
 		</repository>
     </distributionManagement>
 
    <repositories>
 		<repository>
 			<id>github</id>
-			<url>https://maven.pkg.github.com/harman-automotive/csp-central-repo</url>
+			<url>https://maven.pkg.github.com/eclipse-ecsp/entities</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
