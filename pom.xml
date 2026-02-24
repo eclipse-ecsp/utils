@@ -104,10 +104,10 @@
         <logback.version>1.5.5</logback.version>
         <prometheus.client.version>0.6.0</prometheus.client.version>
         <maven.surefire.version>3.5.4</maven.surefire.version>
-        <spring.version>7.0.3</spring.version>
+        <spring.version>7.0.5</spring.version>
         <mockito.version>3.12.4</mockito.version>
-        <springboot.version>4.0.2</springboot.version>
-        <spring.boot.autoconfigure>4.0.2</spring.boot.autoconfigure>
+        <springboot.version>4.0.3</springboot.version>
+        <spring.boot.autoconfigure>4.0.3</spring.boot.autoconfigure>
         <snakeyaml.version>2.0</snakeyaml.version>
         <sonar.coverage.exclusions>
             src/main/java/org/eclipse/ecsp/utils/logger/IgniteCallerDataConverter.java,
