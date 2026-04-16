@@ -39,7 +39,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.ecsp</groupId>
     <artifactId>utils</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3-spring-upgrade-SNAPSHOT</version>
 	
     <name>Utils</name>
     <description>Utility library for ECSP project</description>
@@ -111,8 +111,8 @@
         <maven.surefire.version>2.18.1</maven.surefire.version>
         <spring.version>7.0.5</spring.version>
         <mockito.version>3.12.4</mockito.version>
-        <springboot.version>4.0.3</springboot.version>
-        <spring.boot.autoconfigure>4.0.3</spring.boot.autoconfigure>
+        <springboot.version>4.0.5</springboot.version>
+        <spring.boot.autoconfigure>4.0.5</spring.boot.autoconfigure>
         <snakeyaml.version>2.0</snakeyaml.version>
         <sonar.coverage.exclusions>
             src/main/java/org/eclipse/ecsp/utils/logger/IgniteCallerDataConverter.java,
