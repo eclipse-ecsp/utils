@@ -20,5 +20,6 @@ jobs:
     name: Analyse Licences
     with:
       create-review: true
+      java_version: 25
     secrets:
       token: ${{ secrets.GITLAB_API_TOKEN }}
