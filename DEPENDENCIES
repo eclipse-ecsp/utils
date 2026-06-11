@@ -39,10 +39,10 @@ maven/mavencentral/org.mongodb/mongodb-driver-sync/4.5.1, Apache-2.0, approved, 
 maven/mavencentral/org.objenesis/objenesis/3.2, Apache-2.0, approved, #24688
 maven/mavencentral/org.reflections/reflections/0.9.11, MIT, approved, CQ16665
 maven/mavencentral/org.slf4j/slf4j-api/2.0.13, MIT, approved, #5915
-maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/4.0.5, Apache-2.0, approved, #24987
-maven/mavencentral/org.springframework.boot/spring-boot-starter-aspectj/4.0.5, Apache-2.0, approved, #26060
-maven/mavencentral/org.springframework.boot/spring-boot-starter/4.0.5, Apache-2.0, approved, #25636
-maven/mavencentral/org.springframework.boot/spring-boot/4.0.5, Apache-2.0, approved, #24993
+maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/4.0.6, Apache-2.0, approved, #24987
+maven/mavencentral/org.springframework.boot/spring-boot-starter-aspectj/4.0.6, Apache-2.0, approved, #26060
+maven/mavencentral/org.springframework.boot/spring-boot-starter/4.0.6, Apache-2.0, approved, #25636
+maven/mavencentral/org.springframework.boot/spring-boot/4.0.6, Apache-2.0, approved, #24993
 maven/mavencentral/org.springframework/spring-aop/7.0.5, Apache-2.0, approved, #24985
 maven/mavencentral/org.springframework/spring-beans/7.0.5, Apache-2.0, approved, #24991
 maven/mavencentral/org.springframework/spring-context/7.0.5, Apache-2.0, approved, #24986
